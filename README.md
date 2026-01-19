@@ -98,20 +98,7 @@ Each project includes:
 - Clean implementation
 - Possible future improvements
 
----
- Repository Structure
-```textP--
-
-Python-course/
-├── core-python/
-├── logic-practice/
-├── data-structures/
-├── utilities/
-├── mini-projects/
-└── README.md
-Tools & Technologies
-
-Language: Python 3
+PYTHON 
 
 Editor: VS Code
 
@@ -165,3 +152,15 @@ JOEL KUMAR.J
 Python Developer | Backend & Logic Focused
 GitHub: https://github.com/Joel2528/python-logic-practice
 LinkedIn:
+
+---
+ Repository Structure
+
+Python-course/
+├── core-python/
+├── logic-practice/
+├── data-structures/
+├── utilities/
+├── mini-projects/
+└── README.md
+Tools & Technologies
