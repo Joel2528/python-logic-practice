@@ -1,0 +1,38 @@
+def check_password_strength(password: str) -> dict:
+    """
+    Checks the strength of a password and returns
+    detailed feedback on missing requirements.
+    """
+
+    rules = {
+        "min_length": len(password) >= 8,
+        "uppercase": any(char.isupper() for char in password),
+        "lowercase": any(char.islower() for char in password),
+        "digit": any(char.isdigit() for char in password),
+        "special_char": any(not char.isalnum() for char in password)
+    }
+
+    missing = [rule for rule, passed in rules.items() if not passed]
+
+    return {
+        "is_strong": len(missing) == 0,
+        "missing_requirements": missing
+    }
+
+
+def display_password_result(result: dict) -> None:
+    """Displays password strength result in a readable way."""
+
+    if result["is_strong"]:
+        print("✅ Password is STRONG")
+    else:
+        print("❌ Password is WEAK")
+        print("Missing requirements:")
+        for item in result["missing_requirements"]:
+            print(f"- {item.replace('_', ' ').title()}")
+
+
+# Example usage
+password_input = input("Enter password: ")
+result = check_password_strength(password_input)
+display_password_result(result)
