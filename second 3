@@ -1,0 +1,11 @@
+import re
+
+def is_palindrome(s):
+    # Remove non-alphanumeric characters and convert to lowercase
+    clean_s = re.sub(r'[^a-zA-Z0-9]', '', s).lower()
+    
+    # Check if the string is equal to its reverse
+    return clean_s == clean_s[::-1]
+
+# Example
+print(is_palindrome("A man, a plan, a canal: Panama")) # Output: True
