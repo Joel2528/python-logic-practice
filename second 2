@@ -1,0 +1,15 @@
+from collections import Counter
+
+def most_frequent_char(s):
+    if not s:
+        return None
+    
+    # Filter out spaces if you only want actual characters
+    s = s.replace(" ", "")
+    
+    # Count occurrences and return the most common
+    counts = Counter(s)
+    return counts.most_common(1)[0][0]
+
+# Example
+print(most_frequent_char("success")) # Output: 's'
