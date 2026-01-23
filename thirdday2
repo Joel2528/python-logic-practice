@@ -1,0 +1,21 @@
+def extract_unique_items(data_list):
+    # 1. Use a set for 'O(1)' lookup speed
+    seen = set()
+    unique_list = []
+    
+    # 2. Iterate and check
+    for item in data_list:
+        # 3. Real data cleanup: handle whitespace if the item is a string
+        clean_item = item.strip() if isinstance(item, str) else item
+        
+        if clean_item not in seen:
+            unique_list.append(clean_item)
+            seen.add(clean_item)
+            
+    return unique_list
+
+# Test Input
+raw_data = [" DevOps", "Cloud", " DevOps", "SRE", "Cloud", "Automation"]
+result = extract_unique_items(raw_data)
+print(result) 
+# Output: ['DevOps', 'Cloud', 'SRE', 'Automation']
