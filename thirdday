@@ -1,0 +1,23 @@
+import string
+
+def analyze_word_frequency(text):
+    clean_text = text.lower()
+    clean_text = clean_text.translate(str.maketrans('', '', string.punctuation))
+    
+    # Split into a list of words
+    words = clean_text.split()
+    
+    # Dictionary updates using iteration logic
+    word_counts = {}
+    for word in words:
+        if word in word_counts:
+            word_counts[word] += 1
+        else:
+            word_counts[word] = 1
+            
+    return word_counts
+
+# Test Input
+paragraph = "Data science is the future. Future leaders use data to win!"
+result = analyze_word_frequency(paragraph)
+print(result)
