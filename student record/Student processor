@@ -1,0 +1,227 @@
+"""
+Student Record Processor
+-------------------------
+Reads student data, calculates statistics, and generates a summary report.
+Mimics backend batch processing and report generation systems.
+"""
+
+def read_student_data(filename):
+    """
+    Read student names and marks from a file.
+    
+    Args:
+        filename (str): Path to the student data file
+        
+    Returns:
+        list: List of tuples containing (name, marks)
+    """
+    students = []
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line:  # Skip empty lines
+                    parts = line.split(',')
+                    if len(parts) == 2:
+                        name = parts[0].strip()
+                        try:
+                            marks = float(parts[1].strip())
+                            students.append((name, marks))
+                        except ValueError:
+                            print(f"Warning: Invalid marks for {name}, skipping...")
+        return students
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found!")
+        return []
+    except Exception as e:
+        print(f"Error reading file: {e}")
+        return []
+
+
+def calculate_statistics(students):
+    """
+    Calculate various statistics from student data.
+    
+    Args:
+        students (list): List of tuples containing (name, marks)
+        
+    Returns:
+        dict: Dictionary containing all calculated statistics
+    """
+    if not students:
+        return None
+    
+    marks_list = [marks for _, marks in students]
+    total_students = len(students)
+    
+    # Calculate average
+    average = sum(marks_list) / total_students
+    
+    # Find highest and lowest
+    highest_marks = max(marks_list)
+    lowest_marks = min(marks_list)
+    
+    # Find students with highest and lowest marks
+    top_student = [name for name, marks in students if marks == highest_marks]
+    bottom_student = [name for name, marks in students if marks == lowest_marks]
+    
+    # Pass/Fail count (assuming pass mark is 60)
+    pass_mark = 60
+    pass_count = sum(1 for marks in marks_list if marks >= pass_mark)
+    fail_count = total_students - pass_count
+    
+    # Pass rate percentage
+    pass_rate = (pass_count / total_students) * 100
+    
+    # Grade distribution
+    grade_a = sum(1 for marks in marks_list if marks >= 90)
+    grade_b = sum(1 for marks in marks_list if 80 <= marks < 90)
+    grade_c = sum(1 for marks in marks_list if 70 <= marks < 80)
+    grade_d = sum(1 for marks in marks_list if 60 <= marks < 70)
+    grade_f = sum(1 for marks in marks_list if marks < 60)
+    
+    return {
+        'total_students': total_students,
+        'average': average,
+        'highest_marks': highest_marks,
+        'lowest_marks': lowest_marks,
+        'top_student': top_student,
+        'bottom_student': bottom_student,
+        'pass_count': pass_count,
+        'fail_count': fail_count,
+        'pass_rate': pass_rate,
+        'grade_distribution': {
+            'A (90-100)': grade_a,
+            'B (80-89)': grade_b,
+            'C (70-79)': grade_c,
+            'D (60-69)': grade_d,
+            'F (0-59)': grade_f
+        }
+    }
+
+
+def generate_summary_report(students, stats, output_filename):
+    """
+    Generate a formatted summary report and write to a file.
+    
+    Args:
+        students (list): List of tuples containing (name, marks)
+        stats (dict): Dictionary containing calculated statistics
+        output_filename (str): Path to the output file
+    """
+    try:
+        with open(output_filename, 'w') as file:
+            file.write("=" * 60 + "\n")
+            file.write("STUDENT RECORD PROCESSING SUMMARY\n")
+            file.write("=" * 60 + "\n\n")
+            
+            # Basic Statistics
+            file.write(" BASIC STATISTICS\n")
+            file.write("-" * 60 + "\n")
+            file.write(f"Total Students: {stats['total_students']}\n")
+            file.write(f"Average Marks: {stats['average']:.2f}\n")
+            file.write(f"Highest Marks: {stats['highest_marks']:.2f}\n")
+            file.write(f"Lowest Marks: {stats['lowest_marks']:.2f}\n\n")
+            
+            # Top and Bottom Performers
+            file.write(" PERFORMANCE HIGHLIGHTS\n")
+            file.write("-" * 60 + "\n")
+            file.write(f"Top Performer(s): {', '.join(stats['top_student'])}\n")
+            file.write(f"Needs Improvement: {', '.join(stats['bottom_student'])}\n\n")
+            
+            # Pass/Fail Analysis
+            file.write(" PASS/FAIL ANALYSIS (Pass Mark: 60)\n")
+            file.write("-" * 60 + "\n")
+            file.write(f"Passed: {stats['pass_count']} students ({stats['pass_rate']:.1f}%)\n")
+            file.write(f"Failed: {stats['fail_count']} students ({100 - stats['pass_rate']:.1f}%)\n\n")
+            
+            # Grade Distribution
+            file.write(" GRADE DISTRIBUTION\n")
+            file.write("-" * 60 + "\n")
+            for grade, count in stats['grade_distribution'].items():
+                percentage = (count / stats['total_students']) * 100
+                bar = "" * int(percentage / 5)  # Visual bar chart
+                file.write(f"{grade}: {count:2d} students ({percentage:5.1f}%) {bar}\n")
+            
+            file.write("\n")
+            
+            # Detailed Student List
+            file.write(" DETAILED STUDENT RECORDS\n")
+            file.write("-" * 60 + "\n")
+            file.write(f"{'Name':<25} {'Marks':>8} {'Status':>12} {'Grade':>8}\n")
+            file.write("-" * 60 + "\n")
+            
+            # Sort by marks (descending)
+            sorted_students = sorted(students, key=lambda x: x[1], reverse=True)
+            
+            for name, marks in sorted_students:
+                status = "PASS" if marks >= 60 else "FAIL"
+                
+                # Determine grade
+                if marks >= 90:
+                    grade = "A"
+                elif marks >= 80:
+                    grade = "B"
+                elif marks >= 70:
+                    grade = "C"
+                elif marks >= 60:
+                    grade = "D"
+                else:
+                    grade = "F"
+                
+                file.write(f"{name:<25} {marks:>8.2f} {status:>12} {grade:>8}\n")
+            
+            file.write("\n" + "=" * 60 + "\n")
+            file.write("Report generated successfully!\n")
+            file.write("=" * 60 + "\n")
+        
+        print(f" Summary report written to '{output_filename}'")
+        
+    except Exception as e:
+        print(f"Error writing summary file: {e}")
+
+
+def main():
+    """Main function to orchestrate the student record processing."""
+    print(" Student Record Processor")
+    print("=" * 60)
+    
+    # File paths
+    input_file = "students.txt"
+    output_file = "summary.txt"
+    
+    # Step 1: Read student data
+    print(f"\nReading data from '{input_file}'...")
+    students = read_student_data(input_file)
+    
+    if not students:
+        print(" No valid student data found. Exiting.")
+        return
+    
+    print(f" Successfully loaded {len(students)} student records.")
+    
+    # Step 2: Calculate statistics
+    print("\n Calculating statistics...")
+    stats = calculate_statistics(students)
+    
+    if not stats:
+        print(" Error calculating statistics. Exiting.")
+        return
+    
+    # Display quick summary to console
+    print("\n    Quick Summary:")
+    print(f"   Average Marks: {stats['average']:.2f}")
+    print(f"   Pass Rate: {stats['pass_rate']:.1f}%")
+    print(f"   Top Score: {stats['highest_marks']:.2f} ({', '.join(stats['top_student'])})")
+    
+    # Step 3: Generate summary report
+    print(f"\n Generating detailed report...")
+    generate_summary_report(students, stats, output_file)
+    
+    print("\n" + "=" * 60)
+    print(" Processing complete!")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
