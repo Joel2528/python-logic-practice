@@ -1,0 +1,29 @@
+"""
+Word Counter Utility
+--------------------
+Counts words, lines, and characters in text files.
+"""
+
+def count_words(filename):
+    """Count words, lines, and characters in a file."""
+    try:
+        with open(filename, 'r') as file:
+            content = file.read()
+            lines = content.split('\n')
+            words = content.split()
+            characters = len(content)
+            
+            print(f"File: {filename}")
+            print(f"Lines: {len(lines)}")
+            print(f"Words: {len(words)}")
+            print(f"Characters: {characters}")
+            
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found!")
+
+
+if __name__ == "__main__":
+    # Example usage
+    print("Word Counter Utility")
+    print("=" * 40)
+    count_words("students.txt")

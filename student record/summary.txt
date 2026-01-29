@@ -1,0 +1,57 @@
+============================================================
+STUDENT RECORD PROCESSING SUMMARY
+============================================================
+
+ BASIC STATISTICS
+------------------------------------------------------------
+Total Students: 20
+Average Marks: 72.35
+Highest Marks: 95.00
+Lowest Marks: 39.00
+
+ PERFORMANCE HIGHLIGHTS
+------------------------------------------------------------
+Top Performer(s): Nina Clark
+Needs Improvement: Julia Moore
+
+ PASS/FAIL ANALYSIS (Pass Mark: 60)
+------------------------------------------------------------
+Passed: 15 students (75.0%)
+Failed: 5 students (25.0%)
+
+ GRADE DISTRIBUTION
+------------------------------------------------------------
+A (90-100):  3 students ( 15.0%) 
+B (80-89):  5 students ( 25.0%) 
+C (70-79):  4 students ( 20.0%) 
+D (60-69):  3 students ( 15.0%) 
+F (0-59):  5 students ( 25.0%) 
+
+ DETAILED STUDENT RECORDS
+------------------------------------------------------------
+Name                         Marks       Status    Grade
+------------------------------------------------------------
+Nina Clark                   95.00         PASS        A
+Isaac Thomas                 92.00         PASS        A
+Charlie Davis                91.00         PASS        A
+Rachel Hall                  89.00         PASS        B
+Fiona Wilson                 88.00         PASS        B
+Alice Johnson                85.00         PASS        B
+Patricia Robinson            83.00         PASS        B
+Kevin Jackson                81.00         PASS        B
+Hannah Anderson              78.00         PASS        C
+Samuel Allen                 76.00         PASS        C
+Michael Harris               74.00         PASS        C
+Bob Smith                    72.00         PASS        C
+Diana Martinez               68.00         PASS        D
+Laura White                  67.00         PASS        D
+Tina Young                   62.00         PASS        D
+Oliver Lewis                 58.00         FAIL        F
+George Taylor                55.00         FAIL        F
+Quinn Walker                 49.00         FAIL        F
+Edward Brown                 45.00         FAIL        F
+Julia Moore                  39.00         FAIL        F
+
+============================================================
+Report generated successfully!
+============================================================
