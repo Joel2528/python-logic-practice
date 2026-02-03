@@ -1,0 +1,37 @@
+from collections import deque, defaultdict
+
+def word_ladder_length(beginWord, endWord, wordList):
+    wordSet = set(wordList)
+    if endWord not in wordSet:
+        return 0
+
+    # Preprocess words into patterns
+    all_combo_dict = defaultdict(list)
+    L = len(beginWord)
+    for word in wordSet:
+        for i in range(L):
+            pattern = word[:i] + '*' + word[i+1:]
+            all_combo_dict[pattern].append(word)
+
+    # BFS
+    queue = deque([(beginWord, 1)])  # (current_word, level)
+    visited = set([beginWord])
+
+    while queue:
+        current_word, level = queue.popleft()
+        for i in range(L):
+            pattern = current_word[:i] + '*' + current_word[i+1:]
+            for word in all_combo_dict[pattern]:
+                if word == endWord:
+                    return level + 1
+                if word not in visited:
+                    visited.add(word)
+                    queue.append((word, level + 1))
+            all_combo_dict[pattern] = []  # avoid revisiting
+    return 0
+
+# Example run
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log","cog"]
+print(word_ladder_length(beginWord, endWord, wordList))  # Output: 5
